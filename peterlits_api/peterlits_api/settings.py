@@ -25,31 +25,39 @@ ALLOWED_HOSTS = [
 # Application definition
 INSTALLED_APPS = [
     # django apps
-    'django.contrib.admin',
+    # 'django.contrib.admin',
+    # 'django.contrib.auth',
+    # 'django.contrib.contenttypes',
     'django.contrib.sessions',
+    # 'django.contrib.messages',
+    # 'django.contrib.staticfiles',
 
     # helper for cors
     'corsheaders',
 ]
 
 MIDDLEWARE = [
+    # helper for cors
+    'corsheaders.middleware.CorsMiddleware',
+
     # django middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # helper for cors
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 # CORS settings
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = (
-    '*'
-)
+if DEBUG:
+    CORS_ORIGIN_ALLOW_ALL = True
+else:
+    CORS_ORIGIN_WHITELIST = [
+        'www.peterlits.com',
+    ]
 
 CORS_ALLOW_METHODS = (
     'DELETE',
