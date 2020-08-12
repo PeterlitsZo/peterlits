@@ -1,0 +1,18 @@
+# use django to set the api of peterlits.com
+
+# private setting
+private.py
+
+# database
+db.sqlite3
+
+# python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# server log/output
+*.log
+
+# venv
+venv/
