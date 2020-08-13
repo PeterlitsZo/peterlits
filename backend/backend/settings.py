@@ -20,17 +20,13 @@ DEBUG = private.DEBUG
 
 ALLOWED_HOSTS = [
     'localhost',
+    '127.0.0.1',
 ]
 
 # Application definition
 INSTALLED_APPS = [
     # django apps
-    # 'django.contrib.admin',
-    # 'django.contrib.auth',
-    # 'django.contrib.contenttypes',
     'django.contrib.sessions',
-    # 'django.contrib.messages',
-    # 'django.contrib.staticfiles',
 
     # helper for cors
     'corsheaders',
@@ -45,13 +41,12 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 # CORS settings
 CORS_ALLOW_CREDENTIALS = True
+
 if DEBUG:
     CORS_ORIGIN_ALLOW_ALL = True
 else:
@@ -83,9 +78,9 @@ CORS_ALLOW_HEADERS = (
     'Pragma',
 )
 
-ROOT_URLCONF = 'peterlits_api.urls'
+ROOT_URLCONF = 'backend.urls'
 
-WSGI_APPLICATION = 'peterlits_api.wsgi.application'
+WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
