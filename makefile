@@ -1,4 +1,3 @@
-
 .PHONY: freeze
 freeze:
 	pip freeze > config/pip.txt
@@ -6,4 +5,3 @@ freeze:
 .PHONY: install
 install:
 	pip install -r config/pip.txt
-
