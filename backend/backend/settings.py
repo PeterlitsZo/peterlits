@@ -30,6 +30,9 @@ INSTALLED_APPS = [
 
     # helper for cors
     'corsheaders',
+
+    # api v1
+    'v1',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +130,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # We will access it with nginx
 # STATIC_URL = '/static/'
+
+# media - to hold the data of image and file
+
+MEDIA_ROOT = BASE_DIR / 'statics'
