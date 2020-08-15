@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 
 import re
 
-from units import Upload_Byhash
+from units import Upload_Byhash, OverwriteStorage
 
 
 class User(models.Model):
@@ -15,7 +15,12 @@ class User(models.Model):
     name = models.CharField(max_length=100, unique=True, blank=False)
     email = models.EmailField(unique=True, blank=False)
     password = models.CharField(max_length=600, blank=False)
-    headpic = models.ImageField(upload_to=Upload_Byhash.to_img('headpic'), blank=True)
+    headpic = models.ImageField(
+        upload_to=Upload_Byhash.to_img('headpic'),
+        blank=True,
+        max_length=500,
+        storage=OverwriteStorage.OverwriteStorage()
+    )
 
     def __str__(self):
         return f"{self.name}"
@@ -42,7 +47,8 @@ class User(models.Model):
 
         # pre-deal with all data
         self.password = make_password(self.password + SECRET_KEY)
-        return super().save(*args, **kwargs)
+
+        return super(User, self).save(*args, **kwargs)
 
     def check_password(self, password):
         return check_password(password + SECRET_KEY, self.password)
