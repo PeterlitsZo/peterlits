@@ -1,12 +1,25 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.conf import settings
 
 import re
+from pathlib import Path
 
 from v1.models import User
 
 
 class UserTest(TestCase):
+
+    def delete_all_imgs_in_img_folder(self):
+        imgpath = Path(settings.MEDIA_ROOT) / 'img'
+        for sub_path in imgpath.iterdir():
+            if sub_path.is_dir():
+                for img in sub_path.iterdir():
+                    img.unlink()
+            else:
+                sub_path.unlink()
+
     # Test 001: Test create and its __str__ method
     ###############################################################################################
 
@@ -122,3 +135,57 @@ class UserTest(TestCase):
         self.assertNotEqual(user1.password, "TestTest")
         self.assertTrue(user1.check_password("TestTest"))
         self.assertFalse(user1.check_password("TestTest..."))
+
+    # Test 007: Upload Image
+    ###############################################################################################
+
+    def test_upload_img_1(self):
+        f = SimpleUploadedFile(
+            "test.svg",
+            open(Path(__file__).parent / "Peterlits.min.svg", 'rb').read()
+        )
+        user1 = User(name="Peter1", email="p1@et.er", password="TestTest", headpic=f)
+        user1.save()
+
+    def test_upload_img_2(self):
+        self.delete_all_imgs_in_img_folder()
+
+        # the number that in statics/img
+        imgpath = Path(settings.MEDIA_ROOT) / 'img'
+        old_len = 0
+        for sub_path in imgpath.iterdir():
+            if sub_path.is_dir():
+                for img in sub_path.iterdir():
+                    old_len += 1
+
+        # upload file
+        f = SimpleUploadedFile(
+            "test.svg",
+            open(Path(__file__).parent / "Peterlits.min.svg", 'rb').read()
+        )
+        user1 = User(name="Peter1", email="p1@et.er", password="TestTest", headpic=f)
+        user1.save()
+
+        # assert new_len = old_len + 1
+        new_len = 0
+        for sub_path in imgpath.iterdir():
+            if sub_path.is_dir():
+                for img in sub_path.iterdir():
+                    new_len += 1
+        self.assertEqual(new_len, old_len + 1)
+
+        # upload file
+        f = SimpleUploadedFile(
+            "test.svg",
+            open(Path(__file__).parent / "Peterlits.min.svg", 'rb').read()
+        )
+        user2 = User(name="Peter2", email="p2@et.er", password="TestTest", headpic=f)
+        user2.save()
+
+        # assert new_len = old_len + 1
+        new_new_len = 0
+        for sub_path in imgpath.iterdir():
+            if sub_path.is_dir():
+                for img in sub_path.iterdir():
+                    new_new_len += 1
+        self.assertEqual(new_new_len, new_len)
