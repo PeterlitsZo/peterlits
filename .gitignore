@@ -4,7 +4,10 @@
 private.py
 
 # database
+# main database
 db.sqlite3
+# the folder to hold all user statics files
+statics/
 
 # python cache
 __pycache__/
