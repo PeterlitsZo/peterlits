@@ -28,9 +28,11 @@ ALLOWED_HOSTS = [
 INSTALLED_APPS = [
     # django apps
     'django.contrib.sessions',
+    'django.contrib.contenttypes',
 
-    # helper for cors
+    # helper for cors, REATful api
     'corsheaders',
+    'rest_framework',
 
     # api v1
     'v1',
@@ -81,6 +83,12 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'Pragma',
 )
+
+# REST API settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
+}
 
 ROOT_URLCONF = 'backend.urls'
 
